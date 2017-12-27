@@ -1,0 +1,25 @@
+#!/bin/sh -e
+#
+# /etc/rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# Toilet Flusher - Hooks for /etc/rc.local
+# Use these to run the setup scripts/HTTP API
+
+# PWM setup - enable and export
+# This is a prerequisite for the CHIP to be able to control the servo
+# See setupPWM.sh for more details
+/bin/bash /root/flush/setupPWM.sh
+# Start the HTTP server (for RPC) and run it in the backgorund, forever
+# The HTTP server is exposed to the internet and is called by the Alexa Voice Service
+nohup /usr/bin/nodejs /root/flush/main.js &
+
+exit 0
